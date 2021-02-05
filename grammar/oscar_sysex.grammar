@@ -50,11 +50,37 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 	if (bitLength &lt; 16):
 		print &quot;Not enough space for OSCar Exclusive Data Format, 16 bits needed&quot;
 
-	byte = int(value, 16)
-	high, low = byte &gt;&gt; 4, byte &amp; 0x0F
+	# get number edited by user
+	number = value.getUnsigned()
+	high, low = number &gt;&gt; 4, number &amp; 0x0F
 
-	byteArray.writeUnsignedInt(low, bitPos/8, 1, ENDIAN_BIG)
-	byteArray.writeUnsignedInt(high, bitPos/8+1, 1, ENDIAN_BIG)
+	# verbose flag
+	verbose = False
+
+	# verbose info
+	if verbose:
+		print(&quot;Input value: &quot; + str(number))
+		print(&quot;byteArray length: &quot; + str(byteArray.getLength()))
+		print(&quot;bitPos: &quot; + str(bitPos))
+		print(&quot;bitLength: &quot; + str(bitLength))
+
+		# number in hex
+		numHex = str.format('0x{:02X}', int(str(number), 16))
+		print(&quot;Input value hex: &quot; + str(numHex))
+
+		# number in binary
+		numBinary = '{0:08b}'.format(number)
+		print(&quot;Input value binary: &quot; + str(numBinary))
+		
+		# number high and low nibbles
+		print(&quot;Input value binary (low nibble): &quot; + str('{0:04b}'.format(low)))
+		print(&quot;Input value binary (high nibble): &quot; + str('{0:04b}'.format(high)))
+
+	if (number &lt; 256):
+		byteArray.writeUnsignedIntBits(low, bitPos+4, 4, ENDIAN_BIG)
+		byteArray.writeUnsignedIntBits(high, bitPos+12, 4, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-255). Value not updated.&quot;)
                 </source>
             </script>
         </scripts>
