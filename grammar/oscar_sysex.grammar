@@ -77,8 +77,8 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 		print(&quot;Input value binary (high nibble): &quot; + str('{0:04b}'.format(high)))
 
 	if (number &lt; 256):
-		byteArray.writeUnsignedIntBits(low, bitPos+4, 4, ENDIAN_BIG)
-		byteArray.writeUnsignedIntBits(high, bitPos+12, 4, ENDIAN_BIG)
+		byteArray.writeUnsignedIntBits(low, bitPos, 8, ENDIAN_BIG)
+		byteArray.writeUnsignedIntBits(high, bitPos+8, 8, ENDIAN_BIG)
 	else:
 		print(&quot;Input value out of range (0-255). Value not updated.&quot;)
                 </source>
