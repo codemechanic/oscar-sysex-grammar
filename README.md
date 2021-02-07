@@ -1,8 +1,8 @@
-# OSCar MIDI Sysetem Exclusive (SysEx) Grammar
+# OSCar MIDI System Exclusive (Sysex) Grammar
 
 ![OSCar screenshot](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/images/oscar.jpg?raw=true)
 
-This grammar file maps the structure of the MIDI System Exclusive File Format for the [OSCar synthesizer](https://en.wikipedia.org/wiki/OSC_OSCar), and is based on the generic [MIDI System Exclusive (SysEx) Grammar](https://github.com/codemechanic/midi-sysex-grammar).
+This grammar file maps the structure of the MIDI System Exclusive File Format for the [OSCar synthesizer](https://en.wikipedia.org/wiki/OSC_OSCar), and is based on the generic [MIDI System Exclusive (Sysex) Grammar](https://github.com/codemechanic/midi-sysex-grammar).
 
 The OSCar synthesizer was designed by [Chris Huggett](https://en.wikipedia.org/wiki/Chris_Huggett), [Paul Wiffen](http://www.electricityclub.co.uk/synth-guru-interview/), and Anthony Harris-Griffin, and was manufactured by the [Oxford Synthesiser Company](https://en.wikipedia.org/wiki/Oxford_Synthesiser_Company) from 1983 to 1985. The OSCar was ahead of its time in several ways and was one of the few mono-synths of its time to have MIDI.
 
@@ -13,8 +13,8 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 
 ## Useage
 1. Download and open the <a href="https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true">oscar_sysex.grammar</a> with either Synalize It! or Hexinator.
-2. Open an OSCar MIDI SysEx file.
-3. Apply the MIDI Sysex grammar to the SysEx file.
+2. Open an OSCar MIDI Sysex file.
+3. Apply the MIDI Sysex grammar to the Sysex file.
 
 
 ![OSCar screenshot](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/images/screenshot.gif?raw=true)
