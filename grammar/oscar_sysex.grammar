@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ufwb version="1.17">
-    <grammar name="OSCar MIDI Sysex" start="id:377" author="Ben Allen" email="codemechanic@gmail.com" fileextension=".syx">
+    <grammar name="OSCar MIDI Sysex" start="id:6" author="Ben Allen" email="codemechanic@gmail.com" fileextension=".syx">
         <description>Grammar for the OSCar Synthesizer MIDI System Exclusive format</description>
         <scripts>
             <script name="OSCar Exclusive Data Format" type="DataType" id="702">
@@ -131,10 +131,10 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 
 			# set value strings
 			padding.setString(&quot;padding: 0000&quot;)
-			arpMemResult.setString(&quot;memory mode &quot; + str(arpMem) + &quot;: &quot; + str(arpMemLabel(arpMem).name))
-			arpDelResult.setString(&quot;delete mode &quot; + str(arpDel) + &quot;: &quot; + str(arpDelLabel(arpDel).name))
-			arpUpResult.setString(&quot;up direction &quot; + str(arpUp) + &quot;: &quot; + str(arpUpLabel(arpUp).name))
-			arpDownResult.setString(&quot;down direction &quot; + str(arpDown) + &quot;: &quot; + str(arpDownLabel(arpDown).name))
+			arpMemResult.setString(str(arpMem) + &quot;: memory mode &quot; + str(arpMemLabel(arpMem).name))
+			arpDelResult.setString(str(arpDel) + &quot;: delete mode &quot; + str(arpDelLabel(arpDel).name))
+			arpUpResult.setString(str(arpUp) + &quot;: up direction &quot; + str(arpUpLabel(arpUp).name))
+			arpDownResult.setString(str(arpDown) + &quot;: down direction &quot; + str(arpDownLabel(arpDown).name))
 
 			# add values to results
 			results.addElementBits(element, 4, 0, padding)
@@ -656,20 +656,20 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
                 </source>
             </script>
         </scripts>
-        <structure name="Start of System Exclusive" id="378" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="Byte" mustmatch="yes" id="379" type="integer" length="1" display="hex">
+        <structure name="Start of System Exclusive" id="7" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="Byte" mustmatch="yes" id="8" type="integer" length="1" display="hex">
                 <fixedvalues>
                     <fixedvalue name="SOX" value="0xF0"/>
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Single Byte ID" id="381" length="1" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <binary name="First bit" mustmatch="yes" id="382" length="1" lengthunit="bit">
+        <structure name="Single Byte ID" id="10" length="1" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <binary name="First bit" mustmatch="yes" id="11" length="1" lengthunit="bit">
                 <fixedvalues>
                     <fixedvalue name="Zero" value="00"/>
                 </fixedvalues>
             </binary>
-            <number name="Manufacturer" id="383" type="integer" length="7" lengthunit="bit" display="hex">
+            <number name="Manufacturer" id="12" type="integer" length="7" lengthunit="bit" display="hex">
                 <fixedvalues>
                     <fixedvalue name="Sequential Circuits" value="0x1"/>
                     <fixedvalue name="Moog" value="0x4"/>
@@ -709,13 +709,13 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Multi Byte ID" id="385" length="3" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="First Byte" mustmatch="yes" id="386" length="1" display="hex">
+        <structure name="Multi Byte ID" id="14" length="3" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="First Byte" mustmatch="yes" id="15" length="1" display="hex">
                 <fixedvalues>
                     <fixedvalue name="Extended" value="0x0"/>
                 </fixedvalues>
             </number>
-            <number name="Manufacturer" id="387" type="integer" length="2" display="hex">
+            <number name="Manufacturer" id="16" type="integer" length="2" display="hex">
                 <fixedvalues>
                     <fixedvalue name="Digital Music Corporation" value="0x7"/>
                     <fixedvalue name="New England Digital" value="0x9"/>
@@ -778,8 +778,8 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Identification Code" id="389" length="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <scriptelement name="mapID" id="390">
+        <structure name="Identification Code" id="18" length="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <scriptelement name="mapID" id="19">
                 <script name="unnamed" type="Generic">
                     <source language="Python">
 currentGrammar = currentMapper.getCurrentGrammar()
@@ -800,181 +800,181 @@ else:
                 </script>
             </scriptelement>
         </structure>
-        <structure name="Harmonic Table" id="392" length="48" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <custom name="Fundamental" id="393" script="id:702"/>
-            <custom name="2nd Harmonic" id="394" script="id:702"/>
-            <custom name="3rd Harmonic" id="395" script="id:702"/>
-            <custom name="4th Harmonic" id="396" script="id:702"/>
-            <custom name="5th Harmonic" id="397" script="id:702"/>
-            <custom name="6th Harmonic" id="398" script="id:702"/>
-            <custom name="7th Harmonic" id="399" script="id:702"/>
-            <custom name="8th Harmonic" id="400" script="id:702"/>
-            <custom name="9th Harmonic" id="401" script="id:702"/>
-            <custom name="10th Harmonic" id="402" script="id:702"/>
-            <custom name="11th Harmonic" id="403" script="id:702"/>
-            <custom name="12th Harmonic" id="404" script="id:702"/>
-            <custom name="13th Harmonic" id="405" script="id:702"/>
-            <custom name="14th Harmonic" id="406" script="id:702"/>
-            <custom name="15th Harmonic" id="407" script="id:702"/>
-            <custom name="16th Harmonic" id="408" script="id:702"/>
-            <custom name="17th Harmonic" id="409" script="id:702"/>
-            <custom name="18th Harmonic" id="410" script="id:702"/>
-            <custom name="19th Harmonic" id="411" script="id:702"/>
-            <custom name="20th Harmonic" id="412" script="id:702"/>
-            <custom name="21st Harmonic" id="413" script="id:702"/>
-            <custom name="22nd Harmonic" id="414" script="id:702"/>
-            <custom name="23rd Harmonic" id="415" script="id:702"/>
-            <custom name="24th Harmonic" id="416" script="id:702"/>
+        <structure name="Harmonic Table" id="21" length="48" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <custom name="Fundamental" id="22" script="id:702"/>
+            <custom name="2nd Harmonic" id="23" script="id:702"/>
+            <custom name="3rd Harmonic" id="24" script="id:702"/>
+            <custom name="4th Harmonic" id="25" script="id:702"/>
+            <custom name="5th Harmonic" id="26" script="id:702"/>
+            <custom name="6th Harmonic" id="27" script="id:702"/>
+            <custom name="7th Harmonic" id="28" script="id:702"/>
+            <custom name="8th Harmonic" id="29" script="id:702"/>
+            <custom name="9th Harmonic" id="30" script="id:702"/>
+            <custom name="10th Harmonic" id="31" script="id:702"/>
+            <custom name="11th Harmonic" id="32" script="id:702"/>
+            <custom name="12th Harmonic" id="33" script="id:702"/>
+            <custom name="13th Harmonic" id="34" script="id:702"/>
+            <custom name="14th Harmonic" id="35" script="id:702"/>
+            <custom name="15th Harmonic" id="36" script="id:702"/>
+            <custom name="16th Harmonic" id="37" script="id:702"/>
+            <custom name="17th Harmonic" id="38" script="id:702"/>
+            <custom name="18th Harmonic" id="39" script="id:702"/>
+            <custom name="19th Harmonic" id="40" script="id:702"/>
+            <custom name="20th Harmonic" id="41" script="id:702"/>
+            <custom name="21st Harmonic" id="42" script="id:702"/>
+            <custom name="22nd Harmonic" id="43" script="id:702"/>
+            <custom name="23rd Harmonic" id="44" script="id:702"/>
+            <custom name="24th Harmonic" id="45" script="id:702"/>
         </structure>
-        <structure name="Voice Program" id="418" length="64" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <custom name="Filter Drive" id="419" script="id:702"/>
-            <custom name="Oscillator Balance" id="420" script="id:702"/>
-            <custom name="Noise Balance" id="421" script="id:702"/>
-            <custom name="Filter Frequency" id="422" script="id:702"/>
-            <custom name="Filter Separation" id="423" script="id:702"/>
-            <custom name="Volume Sustain Level" id="424" script="id:702"/>
-            <custom name="Bend Amount" id="425" script="id:702"/>
-            <custom name="Mod Wheel Pitch Amount" id="426" script="id:702"/>
-            <custom name="Mod Wheel Filter Amount" id="427" script="id:702"/>
-            <custom name="Pulse Width" id="428" script="id:702"/>
-            <custom name="Q (Resonance)" id="429" script="id:702"/>
-            <custom name="Filter Sustain Level" id="430" script="id:702"/>
-            <custom name="Detune" id="431" script="id:702"/>
-            <custom name="Direct Filter Mod Amount" id="432" script="id:702"/>
-            <custom name="Envelope Amount to Filter" id="433" script="id:702"/>
-            <custom name="Direct Pitch Mod Amount" id="434" script="id:702"/>
-            <custom name="Gate Time" id="435" script="id:702"/>
-            <custom name="Volume Attack" id="436" script="id:702"/>
-            <custom name="Volume Release" id="437" script="id:702"/>
-            <custom name="Volume Decay" id="438" script="id:702"/>
-            <custom name="Filter Attack" id="439" script="id:702"/>
-            <custom name="Filter Release" id="440" script="id:702"/>
-            <custom name="Filter Decay" id="441" script="id:702"/>
-            <custom name="Glide Rate" id="442" script="id:702"/>
-            <custom name="LFO Rate" id="443" script="id:702"/>
-            <custom name="Intro Delay Time" id="444" script="id:702"/>
-            <custom name="Waveform 1" id="445" script="id:185"/>
-            <custom name="Glide Type" id="446" script="id:183"/>
-            <custom name="Octave Shift" id="447" script="id:188"/>
-            <custom name="Waveform 2" id="448" script="id:187"/>
-            <custom name="Function" id="449" script="id:192"/>
-            <custom name="LFO Waveform" id="450" script="id:193"/>
-            <custom name="Filter Type" id="451" script="id:194"/>
-            <custom name="Trigger Type" id="452" script="id:195"/>
-            <custom name="Tuning Semitone" id="453" script="id:196"/>
-            <custom name="OSC 2 Semitone" id="454" script="id:198"/>
-            <custom name="Arpeggiator Mode" id="455" script="id:170"/>
-            <custom name="Octave Setting" id="456" script="id:191"/>
+        <structure name="Voice Program" id="47" length="64" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <custom name="Filter Drive" id="48" script="id:702"/>
+            <custom name="Oscillator Balance" id="49" script="id:702"/>
+            <custom name="Noise Balance" id="50" script="id:702"/>
+            <custom name="Filter Frequency" id="51" script="id:702"/>
+            <custom name="Filter Separation" id="52" script="id:702"/>
+            <custom name="Volume Sustain Level" id="53" script="id:702"/>
+            <custom name="Bend Amount" id="54" script="id:702"/>
+            <custom name="Mod Wheel Pitch Amount" id="55" script="id:702"/>
+            <custom name="Mod Wheel Filter Amount" id="56" script="id:702"/>
+            <custom name="Pulse Width" id="57" script="id:702"/>
+            <custom name="Q (Resonance)" id="58" script="id:702"/>
+            <custom name="Filter Sustain Level" id="59" script="id:702"/>
+            <custom name="Detune" id="60" script="id:702"/>
+            <custom name="Direct Filter Mod Amount" id="61" script="id:702"/>
+            <custom name="Envelope Amount to Filter" id="62" script="id:702"/>
+            <custom name="Direct Pitch Mod Amount" id="63" script="id:702"/>
+            <custom name="Gate Time" id="64" script="id:702"/>
+            <custom name="Volume Attack" id="65" script="id:702"/>
+            <custom name="Volume Release" id="66" script="id:702"/>
+            <custom name="Volume Decay" id="67" script="id:702"/>
+            <custom name="Filter Attack" id="68" script="id:702"/>
+            <custom name="Filter Release" id="69" script="id:702"/>
+            <custom name="Filter Decay" id="70" script="id:702"/>
+            <custom name="Glide Rate" id="71" script="id:702"/>
+            <custom name="LFO Rate" id="72" script="id:702"/>
+            <custom name="Intro Delay Time" id="73" script="id:702"/>
+            <custom name="Waveform 1" id="74" script="id:185"/>
+            <custom name="Glide Type" id="75" script="id:183"/>
+            <custom name="Octave Shift" id="76" script="id:188"/>
+            <custom name="Waveform 2" id="77" script="id:187"/>
+            <custom name="Function" id="78" script="id:192"/>
+            <custom name="LFO Waveform" id="79" script="id:193"/>
+            <custom name="Filter Type" id="80" script="id:194"/>
+            <custom name="Trigger Type" id="81" script="id:195"/>
+            <custom name="Tuning Semitone" id="82" script="id:196"/>
+            <custom name="OSC 2 Semitone" id="83" script="id:198"/>
+            <custom name="Arpeggiator Mode" id="84" script="id:170"/>
+            <custom name="Octave Setting" id="85" script="id:191"/>
         </structure>
-        <structure name="OSCar Data" id="458" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="Type" id="459" type="integer" length="1"/>
+        <structure name="OSCar Data" id="87" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="Type" id="88" type="integer" length="1"/>
         </structure>
-        <structure name="Waveform Harmonic Data" id="461" extends="id:458">
-            <number name="Type" mustmatch="yes" id="462" type="integer">
+        <structure name="Waveform Harmonic Data" id="90" extends="id:87">
+            <number name="Type" mustmatch="yes" id="91" type="integer">
                 <fixedvalues>
                     <fixedvalue name="Waveform Harmonic Data" value="1"/>
                 </fixedvalues>
             </number>
-            <structref name="Harmonic Table -8" id="463" structure="id:392"/>
-            <structref name="Harmonic Table -9" id="464" structure="id:392"/>
-            <structref name="Harmonic Table -10" id="465" structure="id:392"/>
-            <structref name="Harmonic Table -11" id="466" structure="id:392"/>
-            <structref name="Harmonic Table -12" id="467" structure="id:392"/>
+            <structref name="Harmonic Table -8" id="92" structure="id:21"/>
+            <structref name="Harmonic Table -9" id="93" structure="id:21"/>
+            <structref name="Harmonic Table -10" id="94" structure="id:21"/>
+            <structref name="Harmonic Table -11" id="95" structure="id:21"/>
+            <structref name="Harmonic Table -12" id="96" structure="id:21"/>
         </structure>
-        <structure name="Voice Program Data" id="469" extends="id:458">
-            <number name="Type" mustmatch="yes" id="470" type="integer">
+        <structure name="Voice Program Data" id="98" extends="id:87">
+            <number name="Type" mustmatch="yes" id="99" type="integer">
                 <fixedvalues>
                     <fixedvalue name="Voice Program Data" value="2"/>
                 </fixedvalues>
             </number>
-            <structref name="Voice Program -1" id="471" structure="id:418"/>
-            <structref name="Voice Program -2" id="472" structure="id:418"/>
-            <structref name="Voice Program -3" id="473" structure="id:418"/>
-            <structref name="Voice Program -4" id="474" structure="id:418"/>
-            <structref name="Voice Program -5" id="475" structure="id:418"/>
-            <structref name="Voice Program -6" id="476" structure="id:418"/>
-            <structref name="Voice Program -7" id="477" structure="id:418"/>
-            <structref name="Voice Program -8" id="478" structure="id:418"/>
-            <structref name="Voice Program -9" id="479" structure="id:418"/>
-            <structref name="Voice Program -10" id="480" structure="id:418"/>
-            <structref name="Voice Program -11" id="481" structure="id:418"/>
-            <structref name="Voice Program -12" id="482" structure="id:418"/>
-            <structref name="Voice Program 1" id="483" structure="id:418"/>
-            <structref name="Voice Program 2" id="484" structure="id:418"/>
-            <structref name="Voice Program 3" id="485" structure="id:418"/>
-            <structref name="Voice Program 4" id="486" structure="id:418"/>
-            <structref name="Voice Program 5" id="487" structure="id:418"/>
-            <structref name="Voice Program 6" id="488" structure="id:418"/>
-            <structref name="Voice Program 7" id="489" structure="id:418"/>
-            <structref name="Voice Program 8" id="490" structure="id:418"/>
-            <structref name="Voice Program 9" id="491" structure="id:418"/>
-            <structref name="Voice Program 10" id="492" structure="id:418"/>
-            <structref name="Voice Program 11" id="493" structure="id:418"/>
-            <structref name="Voice Program 12" id="494" structure="id:418"/>
-            <structref name="Voice Program 13" id="495" structure="id:418"/>
-            <structref name="Voice Program 14" id="496" structure="id:418"/>
-            <structref name="Voice Program 15" id="497" structure="id:418"/>
-            <structref name="Voice Program 16" id="498" structure="id:418"/>
-            <structref name="Voice Program 17" id="499" structure="id:418"/>
-            <structref name="Voice Program 18" id="500" structure="id:418"/>
-            <structref name="Voice Program 19" id="501" structure="id:418"/>
-            <structref name="Voice Program 20" id="502" structure="id:418"/>
-            <structref name="Voice Program 21" id="503" structure="id:418"/>
-            <structref name="Voice Program 22" id="504" structure="id:418"/>
-            <structref name="Voice Program 23" id="505" structure="id:418"/>
-            <structref name="Voice Program 24" id="506" structure="id:418"/>
+            <structref name="Voice Program -1" id="100" structure="id:47"/>
+            <structref name="Voice Program -2" id="101" structure="id:47"/>
+            <structref name="Voice Program -3" id="102" structure="id:47"/>
+            <structref name="Voice Program -4" id="103" structure="id:47"/>
+            <structref name="Voice Program -5" id="104" structure="id:47"/>
+            <structref name="Voice Program -6" id="105" structure="id:47"/>
+            <structref name="Voice Program -7" id="106" structure="id:47"/>
+            <structref name="Voice Program -8" id="107" structure="id:47"/>
+            <structref name="Voice Program -9" id="108" structure="id:47"/>
+            <structref name="Voice Program -10" id="109" structure="id:47"/>
+            <structref name="Voice Program -11" id="110" structure="id:47"/>
+            <structref name="Voice Program -12" id="111" structure="id:47"/>
+            <structref name="Voice Program 1" id="112" structure="id:47"/>
+            <structref name="Voice Program 2" id="113" structure="id:47"/>
+            <structref name="Voice Program 3" id="114" structure="id:47"/>
+            <structref name="Voice Program 4" id="115" structure="id:47"/>
+            <structref name="Voice Program 5" id="116" structure="id:47"/>
+            <structref name="Voice Program 6" id="117" structure="id:47"/>
+            <structref name="Voice Program 7" id="118" structure="id:47"/>
+            <structref name="Voice Program 8" id="119" structure="id:47"/>
+            <structref name="Voice Program 9" id="120" structure="id:47"/>
+            <structref name="Voice Program 10" id="121" structure="id:47"/>
+            <structref name="Voice Program 11" id="122" structure="id:47"/>
+            <structref name="Voice Program 12" id="123" structure="id:47"/>
+            <structref name="Voice Program 13" id="124" structure="id:47"/>
+            <structref name="Voice Program 14" id="125" structure="id:47"/>
+            <structref name="Voice Program 15" id="126" structure="id:47"/>
+            <structref name="Voice Program 16" id="127" structure="id:47"/>
+            <structref name="Voice Program 17" id="128" structure="id:47"/>
+            <structref name="Voice Program 18" id="129" structure="id:47"/>
+            <structref name="Voice Program 19" id="130" structure="id:47"/>
+            <structref name="Voice Program 20" id="131" structure="id:47"/>
+            <structref name="Voice Program 21" id="132" structure="id:47"/>
+            <structref name="Voice Program 22" id="133" structure="id:47"/>
+            <structref name="Voice Program 23" id="134" structure="id:47"/>
+            <structref name="Voice Program 24" id="135" structure="id:47"/>
         </structure>
-        <structure name="Sequence Data" id="508" extends="id:458">
-            <number name="Type" mustmatch="yes" id="509" type="integer">
+        <structure name="Sequence Data" id="137" extends="id:87">
+            <number name="Type" mustmatch="yes" id="138" type="integer">
                 <fixedvalues>
                     <fixedvalue name="Sequence Data" value="3"/>
                 </fixedvalues>
             </number>
-            <structure name="Length Block" id="510">
-                <custom name="Sequence 1 Length" id="511" script="id:702"/>
-                <custom name="Sequence 2 Length" id="512" script="id:702"/>
-                <custom name="Sequence 3 Length" id="513" script="id:702"/>
-                <custom name="Sequence 4 Length" id="514" script="id:702"/>
-                <custom name="Sequence 5 Length" id="515" script="id:702"/>
-                <custom name="Sequence 6 Length" id="516" script="id:702"/>
-                <custom name="Sequence 7 Length" id="517" script="id:702"/>
-                <custom name="Sequence 8 Length" id="518" script="id:702"/>
-                <custom name="Sequence 9 Length" id="519" script="id:702"/>
-                <custom name="Sequence 10 Length" id="520" script="id:702"/>
-                <custom name="Sequence 11 Length" id="521" script="id:702"/>
-                <custom name="Sequence 12 Length" id="522" script="id:702"/>
-                <custom name="Sequence 13 Length" id="523" script="id:702"/>
-                <custom name="Sequence 14 Length" id="524" script="id:702"/>
-                <custom name="Sequence 15 Length" id="525" script="id:702"/>
-                <custom name="Sequence 16 Length" id="526" script="id:702"/>
-                <custom name="Sequence 17 Length" id="527" script="id:702"/>
-                <custom name="Sequence 18 Length" id="528" script="id:702"/>
-                <custom name="Sequence 19 Length" id="529" script="id:702"/>
-                <custom name="Sequence 20 Length" id="530" script="id:702"/>
-                <custom name="Sequence 21 Length" id="531" script="id:702"/>
-                <custom name="Sequence 22 Length" id="532" script="id:702"/>
+            <structure name="Length Block" id="139">
+                <custom name="Sequence 1 Length" id="140" script="id:702"/>
+                <custom name="Sequence 2 Length" id="141" script="id:702"/>
+                <custom name="Sequence 3 Length" id="142" script="id:702"/>
+                <custom name="Sequence 4 Length" id="143" script="id:702"/>
+                <custom name="Sequence 5 Length" id="144" script="id:702"/>
+                <custom name="Sequence 6 Length" id="145" script="id:702"/>
+                <custom name="Sequence 7 Length" id="146" script="id:702"/>
+                <custom name="Sequence 8 Length" id="147" script="id:702"/>
+                <custom name="Sequence 9 Length" id="148" script="id:702"/>
+                <custom name="Sequence 10 Length" id="149" script="id:702"/>
+                <custom name="Sequence 11 Length" id="150" script="id:702"/>
+                <custom name="Sequence 12 Length" id="151" script="id:702"/>
+                <custom name="Sequence 13 Length" id="152" script="id:702"/>
+                <custom name="Sequence 14 Length" id="153" script="id:702"/>
+                <custom name="Sequence 15 Length" id="154" script="id:702"/>
+                <custom name="Sequence 16 Length" id="155" script="id:702"/>
+                <custom name="Sequence 17 Length" id="156" script="id:702"/>
+                <custom name="Sequence 18 Length" id="157" script="id:702"/>
+                <custom name="Sequence 19 Length" id="158" script="id:702"/>
+                <custom name="Sequence 20 Length" id="159" script="id:702"/>
+                <custom name="Sequence 21 Length" id="160" script="id:702"/>
+                <custom name="Sequence 22 Length" id="161" script="id:702"/>
             </structure>
-            <structure name="Data Block" id="534" length="0">
-                <custom name="EDF Byte" id="535" repeatmin="22" repeatmax="22"/>
+            <structure name="Data Block" id="163" length="0">
+                <custom name="EDF Byte" id="164" repeatmin="22" repeatmax="22"/>
             </structure>
         </structure>
-        <structure name="End of System Exclusive" id="538" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="Byte" mustmatch="yes" id="539" type="integer" length="1" display="hex">
+        <structure name="End of System Exclusive" id="167" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="Byte" mustmatch="yes" id="168" type="integer" length="1" display="hex">
                 <fixedvalues>
                     <fixedvalue name="EOX" value="0xF7"/>
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Chunk" id="541" repeatmax="-1" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <structref name="Start of System Exclusive" id="542" structure="id:378"/>
-            <structref name="Identification Code" id="543" structure="id:389"/>
-            <structref name="Waveform Harmonic Data" id="544" repeatmin="0" structure="id:461"/>
-            <structref name="Voice Program Data" id="545" repeatmin="0" structure="id:469"/>
-            <structref name="Sequence Data" id="546" repeatmin="0" structure="id:508"/>
-            <structref name="End of System Exclusive" id="547" structure="id:538"/>
+        <structure name="Chunk" id="170" repeatmax="-1" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <structref name="Start of System Exclusive" id="171" structure="id:7"/>
+            <structref name="Identification Code" id="172" structure="id:18"/>
+            <structref name="Waveform Harmonic Data" id="173" repeatmin="0" structure="id:90"/>
+            <structref name="Voice Program Data" id="174" repeatmin="0" structure="id:98"/>
+            <structref name="Sequence Data" id="175" repeatmin="0" structure="id:137"/>
+            <structref name="End of System Exclusive" id="176" structure="id:167"/>
         </structure>
-        <structure name="MIDI System Exclusive" id="377" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <structref name="Chunk" id="549" repeatmax="-1" structure="id:541"/>
+        <structure name="MIDI System Exclusive" id="6" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <structref name="Chunk" id="178" repeatmax="-1" structure="id:170"/>
         </structure>
     </grammar>
 </ufwb>

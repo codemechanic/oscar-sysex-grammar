@@ -48,10 +48,10 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 
 			# set value strings
 			padding.setString("padding: 0000")
-			arpMemResult.setString("memory mode " + str(arpMem) + ": " + str(arpMemLabel(arpMem).name))
-			arpDelResult.setString("delete mode " + str(arpDel) + ": " + str(arpDelLabel(arpDel).name))
-			arpUpResult.setString("up direction " + str(arpUp) + ": " + str(arpUpLabel(arpUp).name))
-			arpDownResult.setString("down direction " + str(arpDown) + ": " + str(arpDownLabel(arpDown).name))
+			arpMemResult.setString(str(arpMem) + ": memory mode " + str(arpMemLabel(arpMem).name))
+			arpDelResult.setString(str(arpDel) + ": delete mode " + str(arpDelLabel(arpDel).name))
+			arpUpResult.setString(str(arpUp) + ": up direction " + str(arpUpLabel(arpUp).name))
+			arpDownResult.setString(str(arpDown) + ": down direction " + str(arpDownLabel(arpDown).name))
 
 			# add values to results
 			results.addElementBits(element, 4, 0, padding)
