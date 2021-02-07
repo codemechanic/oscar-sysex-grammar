@@ -17,5 +17,8 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 3. Apply the MIDI Sysex grammar to the SysEx file.
 
 
+![OSCar screenshot](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/images/screenshot.gif?raw=true)
+
+
 ## Todo:
 1. Improve definition of the Sequence Data Block
