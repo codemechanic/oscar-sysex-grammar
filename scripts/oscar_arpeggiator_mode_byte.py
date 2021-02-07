@@ -6,7 +6,7 @@
 
 def parseByteRange(element, byteView, bitPos, bitLength, results):
 	# this method parses data starting at bitPos, bitLength bits are remaining
-	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+	"""parseByteRange method"""
 
 	processedBytes = 0
 	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
@@ -27,11 +27,11 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 			arpDownResult = Value()
 
 			# set value strings
-			padding.setString(&quot;padding: 0000&quot;)
-			arpMemResult.setString(&quot;memory mode: &quot; + str(arpMem))
-			arpDelResult.setString(&quot;delete mode: &quot; + str(arpDel))
-			arpUpResult.setString(&quot;up direction: &quot; + str(arpUp))
-			arpDownResult.setString(&quot;down direction: &quot; + str(arpDown))
+			padding.setString("padding: 0000")
+			arpMemResult.setString("memory mode: " + str(arpMem))
+			arpDelResult.setString("delete mode: " + str(arpDel))
+			arpUpResult.setString("up direction: " + str(arpUp))
+			arpDownResult.setString("down direction: " + str(arpDown))
 
 			# add values to results
 			results.addElementBits(element, 4, 0, padding)
@@ -46,12 +46,12 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 
 def fillByteRange(value, byteArray, bitPos, bitLength):
 	# this method translates edited values back to the file
-	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+	"""fillByteRange method"""
 
 	# get number edited by user
 	number = value.getUnsigned()
 
-	if (number &lt; 2):
+	if (number < 2):
 		byteArray.writeUnsignedIntBits(number, bitPos, 1, ENDIAN_BIG)
 	else:
-		print(&quot;Input value out of range (0-1). Value not updated.&quot;)
+		print("Input value out of range (0-1). Value not updated.")

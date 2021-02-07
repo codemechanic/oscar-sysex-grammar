@@ -11,7 +11,7 @@ valueLabels = Enum('GlideType', 'Normal, Auto, Glissando, Normal-Fixed, Auto-Fix
 
 def parseByteRange(element, byteView, bitPos, bitLength, results):
 	# this method parses data starting at bitPos, bitLength bits are remaining
-	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+	"""parseByteRange method"""
 
 	processedBytes = 0
 	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
@@ -22,24 +22,24 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
 
 			# return value to results
-			if (result &lt; len(valueLabels)):
+			if (result < len(valueLabels)):
 				value = Value()
-				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				value.setString(str(result) + ": " + str(valueLabels(result).name))
 				results.addElement(element, 1, 0, value)
 				processedBytes = 1
 			else:
-				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+				print("Value out of range (0-" + str(len(valueLabels)-1) + ")")
 
 	return processedBytes
 
 def fillByteRange(value, byteArray, bitPos, bitLength):
 	# this method translates edited values back to the file
-	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+	"""fillByteRange method"""
 
 	# get number edited by user
 	number = value.getUnsigned()
 
-	if (number &lt; len(valueLabels)):
+	if (number < len(valueLabels)):
 		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
 	else:
-		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+		print("Input value out of range (0-" + str(len(valueLabels)-1) + "). Value not updated.")

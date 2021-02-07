@@ -17,7 +17,7 @@
 
 
 def parseByteRange(element, byteView, bitPos, bitLength, results):
-	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+	"""parseByteRange method"""
 
 	processedBytes = 0
 	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
@@ -31,7 +31,7 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 			# combine high and low nibbles from two bytes into one byte
 			low = byteView.readUnsignedIntBits(bitPos+4, 4, ENDIAN_BIG)
 			high = byteView.readUnsignedIntBits(bitPos+12, 4, ENDIAN_BIG)
-			result = (high &lt;&lt; 4) | low;
+			result = (high << 4) | low;
 
 			# return value to results
 			value = Value()
@@ -42,10 +42,10 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 	return processedBytes
 
 def fillByteRange(value, byteArray, bitPos, bitLength):
-	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+	"""fillByteRange method"""
 
-	if (bitLength &lt; 16):
-		print &quot;Not enough space for OSCar Exclusive Data Format, 16 bits needed&quot;
+	if (bitLength < 16):
+		print "Not enough space for OSCar Exclusive Data Format, 16 bits needed"
 
 	# get number edited by user
 	number = value.getUnsigned()
@@ -56,25 +56,25 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 
 	# verbose info
 	if verbose:
-		print(&quot;Input value: &quot; + str(number))
-		print(&quot;byteArray length: &quot; + str(byteArray.getLength()))
-		print(&quot;bitPos: &quot; + str(bitPos))
-		print(&quot;bitLength: &quot; + str(bitLength))
+		print("Input value: " + str(number))
+		print("byteArray length: " + str(byteArray.getLength()))
+		print("bitPos: " + str(bitPos))
+		print("bitLength: " + str(bitLength))
 
 		# number in hex
 		numHex = str.format('0x{:02X}', int(str(number), 16))
-		print(&quot;Input value hex: &quot; + str(numHex))
+		print("Input value hex: " + str(numHex))
 
 		# number in binary
 		numBinary = '{0:08b}'.format(number)
-		print(&quot;Input value binary: &quot; + str(numBinary))
+		print("Input value binary: " + str(numBinary))
 		
 		# number high and low nibbles
-		print(&quot;Input value binary (low nibble): &quot; + str('{0:04b}'.format(low)))
-		print(&quot;Input value binary (high nibble): &quot; + str('{0:04b}'.format(high)))
+		print("Input value binary (low nibble): " + str('{0:04b}'.format(low)))
+		print("Input value binary (high nibble): " + str('{0:04b}'.format(high)))
 
-	if (number &lt; 256):
+	if (number < 256):
 		byteArray.writeUnsignedIntBits(low, bitPos, 8, ENDIAN_BIG)
 		byteArray.writeUnsignedIntBits(high, bitPos+8, 8, ENDIAN_BIG)
 	else:
-		print(&quot;Input value out of range (0-255). Value not updated.&quot;)
+		print("Input value out of range (0-255). Value not updated.")
