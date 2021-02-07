@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ufwb version="1.17">
-    <grammar name="OSCar MIDI Sysex" start="id:313" author="Ben Allen" email="codemechanic@gmail.com" fileextension=".syx">
+    <grammar name="OSCar MIDI Sysex" start="id:6" author="Ben Allen" email="codemechanic@gmail.com" fileextension=".syx">
         <description>Grammar for the OSCar Synthesizer MIDI System Exclusive format</description>
         <scripts>
-            <script name="Exclusive Data Format" type="DataType" id="702">
+            <script name="OSCar Exclusive Data Format" type="DataType" id="702">
                 <source language="Python">
 # OSCar Exclusive Data Format
 #
@@ -83,21 +83,573 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 		print(&quot;Input value out of range (0-255). Value not updated.&quot;)
                 </source>
             </script>
+            <script name="OSCar Arpeggiator Mode Byte" type="DataType" id="170">
+                <source language="Python">
+# OSCar Arpeggiator Mode Byte
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			arpMem = byteView.readUnsignedIntBits(bitPos+4, 1, ENDIAN_BIG)
+			arpDel = byteView.readUnsignedIntBits(bitPos+5, 1, ENDIAN_BIG)
+			arpUp = byteView.readUnsignedIntBits(bitPos+6, 1, ENDIAN_BIG)
+			arpDown = byteView.readUnsignedIntBits(bitPos+7, 1, ENDIAN_BIG)
+
+			# set values
+			padding = Value()
+			arpMemResult = Value()
+			arpDelResult = Value()
+			arpUpResult = Value()
+			arpDownResult = Value()
+
+			# set value strings
+			padding.setString(&quot;padding: 0000&quot;)
+			arpMemResult.setString(&quot;memory mode: &quot; + str(arpMem))
+			arpDelResult.setString(&quot;delete mode: &quot; + str(arpDel))
+			arpUpResult.setString(&quot;up direction: &quot; + str(arpUp))
+			arpDownResult.setString(&quot;down direction: &quot; + str(arpDown))
+
+			# add values to results
+			results.addElementBits(element, 4, 0, padding)
+			results.addElementBits(element, 1, 0, arpMemResult)
+			results.addElementBits(element, 1, 0, arpDelResult)
+			results.addElementBits(element, 1, 0, arpUpResult)
+			results.addElementBits(element, 1, 0, arpDownResult)
+
+			processedBytes = 1
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; 2):
+		byteArray.writeUnsignedIntBits(number, bitPos, 1, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-1). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Glide Type Byte" type="DataType" id="183">
+                <source language="Python">
+# OSCar Glide Type Byte
+#
+# Glide Type Labels 0-5
+
+from enum import Enum
+valueLabels = Enum('GlideType', 'Normal, Auto, Glissando, Normal-Fixed, Auto-Fixed, Glissando-Fixed', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Waveform 1 Byte" type="DataType" id="185">
+                <source language="Python">
+# OSCar Waveform 1 Byte
+#
+# Waveform 1 Labels 0-15
+
+from enum import Enum
+valueLabels = Enum('Waveform1', 'Triangle, Sawtooth, Square, Pulse, PWM, Off, Preset-Waveform[-3], Preset-Waveform[-4], Preset-Waveform[-5], Preset-Waveform[-6], Preset-Waveform[-7], Built-Waveform[-8], Built-Waveform[-9], Built-Waveform[-10], Built-Waveform[-11], Built-Waveform[-12]', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+4, 4, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Waveform 2 Byte" type="DataType" id="187">
+                <source language="Python">
+# OSCar Waveform 2 Byte
+#
+# Waveform 2 Labels 0-15
+
+from enum import Enum
+valueLabels = Enum('Waveform2', 'Triangle, Sawtooth, Square, Pulse, PWM, OSC1, Preset-Waveform[-3], Preset-Waveform[-4], Preset-Waveform[-5], Preset-Waveform[-6], Preset-Waveform[-7], Built-Waveform[-8], Built-Waveform[-9], Built-Waveform[-10], Built-Waveform[-11], Built-Waveform[-12]', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+4, 4, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Octave Shift Byte" type="DataType" id="188">
+                <source language="Python">
+# OSCar Octave Shift Byte
+#
+# Octave Shift Labels 0-4
+
+from enum import Enum
+valueLabels = Enum('OctaveShift', 'Octave[+2], Octave[+1], Center, Octave[-1], Octave[-2]', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Octave Setting Byte" type="DataType" id="191">
+                <source language="Python">
+# OSCar Octave Setting Byte
+#
+# Octave Setting Labels 0-4
+
+from enum import Enum
+valueLabels = Enum('OctaveSetting', 'Octave[+2], Octave[+1], Center, Octave[-1], Octave[-2]', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Function Byte" type="DataType" id="192">
+                <source language="Python">
+# OSCar Function Byte
+#
+# Function Labels 0-5
+
+from enum import Enum
+valueLabels = Enum('Function', 'Normal, Arpeggiator, Duophonic, Normal-Hold, Arpeggiator-Hold, Duophonic-Hold', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar LFO Waveform" type="DataType" id="193">
+                <source language="Python">
+# OSCar LFO Waveform Byte
+#
+# LFO Waveform Labels 0-5
+
+from enum import Enum
+valueLabels = Enum('LFOWaveform', 'Triangle, Sawtooth, Square, Filter-Envelope, Keyboard, Random', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Filter Type" type="DataType" id="194">
+                <source language="Python">
+# OSCar Filter Type Byte
+#
+# Filter Labels 0-5
+
+from enum import Enum
+valueLabels = Enum('FilterType', 'Lowpass, Bandpass, Highpass, Lowpass-No-Track, Bandpass-No-Track, Highpass-No-Track', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Trigger Type" type="DataType" id="195">
+                <source language="Python">
+# OSCar Trigger Type Byte
+#
+# Filter Labels 0-5
+
+from enum import Enum
+valueLabels = Enum('TriggerType', 'Single, Multiple, Repeat-1, Repeat-2, Repeat-1+2, External', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar Tuning Semitone" type="DataType" id="196">
+                <source language="Python">
+# OSCar Tuning Semitone Byte
+#
+# Tuning Semitone Labels 0-14
+
+from enum import Enum
+valueLabels = Enum('TuningSemitone', 'Triangle, Sawtooth, Square, Pulse, PWM, OSC1, Preset-Waveform[-3], Preset-Waveform[-4], Preset-Waveform[-5], Preset-Waveform[-6], Preset-Waveform[-7], Built-Waveform[-8], Built-Waveform[-9], Built-Waveform[-10], Built-Waveform[-11], Built-Waveform[-12]', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+4, 4, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
+            <script name="OSCar OSC 2 Semitone Byte" type="DataType" id="198">
+                <source language="Python">
+# OSCar OSC 2 Semitone Byte
+#
+# OSC 2 Semitone Labels 0-14
+
+from enum import Enum
+valueLabels = Enum('OSC2Semitone', 'Triangle, Sawtooth, Square, Pulse, PWM, OSC1, Preset-Waveform[-3], Preset-Waveform[-4], Preset-Waveform[-5], Preset-Waveform[-6], Preset-Waveform[-7], Built-Waveform[-8], Built-Waveform[-9], Built-Waveform[-10], Built-Waveform[-11], Built-Waveform[-12]', start=0)
+
+def parseByteRange(element, byteView, bitPos, bitLength, results):
+	# this method parses data starting at bitPos, bitLength bits are remaining
+	&quot;&quot;&quot;parseByteRange method&quot;&quot;&quot;
+
+	processedBytes = 0
+	initialBitLow = byteView.readUnsignedIntBits(bitPos, 1, ENDIAN_BIG)
+
+	if (initialBitLow == 0):
+
+			# read bits
+			result = byteView.readUnsignedIntBits(bitPos+4, 4, ENDIAN_BIG)
+
+			# return value to results
+			if (result &lt; len(valueLabels)):
+				value = Value()
+				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
+				results.addElement(element, 1, 0, value)
+				processedBytes = 1
+			else:
+				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+
+	return processedBytes
+
+def fillByteRange(value, byteArray, bitPos, bitLength):
+	# this method translates edited values back to the file
+	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
+
+	# get number edited by user
+	number = value.getUnsigned()
+
+	if (number &lt; len(valueLabels)):
+		byteArray.writeUnsignedIntBits(number, bitPos, 8, ENDIAN_BIG)
+	else:
+		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
+                </source>
+            </script>
         </scripts>
-        <structure name="Start of System Exclusive" id="314" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="Byte" mustmatch="yes" id="315" type="integer" length="1" display="hex">
+        <structure name="Start of System Exclusive" id="7" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="Byte" mustmatch="yes" id="8" type="integer" length="1" display="hex">
                 <fixedvalues>
                     <fixedvalue name="SOX" value="0xF0"/>
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Multi Byte ID" id="317" length="3" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="First Byte" mustmatch="yes" id="318" length="1" display="hex">
+        <structure name="Multi Byte ID" id="10" length="3" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="First Byte" mustmatch="yes" id="11" length="1" display="hex">
                 <fixedvalues>
                     <fixedvalue name="Extended" value="0x0"/>
                 </fixedvalues>
             </number>
-            <number name="Manufacturer" id="319" type="integer" length="2" display="hex">
+            <number name="Manufacturer" id="12" type="integer" length="2" display="hex">
                 <fixedvalues>
                     <fixedvalue name="Digital Music Corporation" value="0x7"/>
                     <fixedvalue name="New England Digital" value="0x9"/>
@@ -160,13 +712,13 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Single Byte ID" id="321" length="1" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <binary name="First bit" mustmatch="yes" id="322" length="1" lengthunit="bit">
+        <structure name="Single Byte ID" id="14" length="1" alignment="0" repeatmin="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <binary name="First bit" mustmatch="yes" id="15" length="1" lengthunit="bit">
                 <fixedvalues>
                     <fixedvalue name="Zero" value="00"/>
                 </fixedvalues>
             </binary>
-            <number name="Manufacturer" id="323" type="integer" length="7" lengthunit="bit" display="hex">
+            <number name="Manufacturer" id="16" type="integer" length="7" lengthunit="bit" display="hex">
                 <fixedvalues>
                     <fixedvalue name="Sequential Circuits" value="0x1"/>
                     <fixedvalue name="Moog" value="0x4"/>
@@ -206,8 +758,8 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Identification Code" id="325" length="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <scriptelement name="mapID" id="326">
+        <structure name="Identification Code" id="18" length="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <scriptelement name="mapID" id="19">
                 <script name="unnamed" type="Generic">
                     <source language="Python">
 currentGrammar = currentMapper.getCurrentGrammar()
@@ -228,154 +780,217 @@ else:
                 </script>
             </scriptelement>
         </structure>
-        <structure name="Harmonic Table" id="328" length="48" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <custom name="Fundamental" id="329" script="id:702"/>
-            <custom name="2nd Harmonic" id="330" script="id:702"/>
-            <custom name="3rd Harmonic" id="331" script="id:702"/>
-            <custom name="4th Harmonic" id="332" script="id:702"/>
-            <custom name="5th Harmonic" id="333" script="id:702"/>
-            <custom name="6th Harmonic" id="334" script="id:702"/>
-            <custom name="7th Harmonic" id="335" script="id:702"/>
-            <custom name="8th Harmonic" id="336" script="id:702"/>
-            <custom name="9th Harmonic" id="337" script="id:702"/>
-            <custom name="10th Harmonic" id="338" script="id:702"/>
-            <custom name="11th Harmonic" id="339" script="id:702"/>
-            <custom name="12th Harmonic" id="340" script="id:702"/>
-            <custom name="13th Harmonic" id="341" script="id:702"/>
-            <custom name="14th Harmonic" id="342" script="id:702"/>
-            <custom name="15th Harmonic" id="343" script="id:702"/>
-            <custom name="16th Harmonic" id="344" script="id:702"/>
-            <custom name="17th Harmonic" id="345" script="id:702"/>
-            <custom name="18th Harmonic" id="346" script="id:702"/>
-            <custom name="19th Harmonic" id="347" script="id:702"/>
-            <custom name="20th Harmonic" id="348" script="id:702"/>
-            <custom name="21st Harmonic" id="349" script="id:702"/>
-            <custom name="22nd Harmonic" id="350" script="id:702"/>
-            <custom name="23rd Harmonic" id="351" script="id:702"/>
-            <custom name="24th Harmonic" id="352" script="id:702"/>
+        <structure name="Arpeggiator Modes" id="21" length="1" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <binary name="4 bits" id="22" length="4" lengthunit="bit">
+                <fixedvalues>
+                    <fixedvalue name="Zeroes" value="0000"/>
+                </fixedvalues>
+            </binary>
+            <binary name="memory mode" id="23" length="1" lengthunit="bit">
+                <fixedvalues>
+                    <fixedvalue name="on" value="01"/>
+                    <fixedvalue name="off" value="00"/>
+                </fixedvalues>
+            </binary>
+            <binary name="deleting mode" id="24" length="1" lengthunit="bit">
+                <fixedvalues>
+                    <fixedvalue name="on" value="01"/>
+                    <fixedvalue name="off" value="00"/>
+                </fixedvalues>
+            </binary>
+            <binary name="up direction" id="25" length="1" lengthunit="bit">
+                <fixedvalues>
+                    <fixedvalue name="on" value="01"/>
+                    <fixedvalue name="off" value="00"/>
+                </fixedvalues>
+            </binary>
+            <binary name="down direction" id="26" length="1" lengthunit="bit">
+                <fixedvalues>
+                    <fixedvalue name="on" value="01"/>
+                    <fixedvalue name="off" value="00"/>
+                </fixedvalues>
+            </binary>
         </structure>
-        <structure name="Voice Program" id="354" length="64" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <custom name="Filter Drive" id="355" script="id:702"/>
-            <custom name="Oscillator Balance" id="356" script="id:702"/>
-            <custom name="Noise Balance" id="357" script="id:702"/>
-            <custom name="Filter Frequency" id="358" script="id:702"/>
-            <custom name="Filter Separation" id="359" script="id:702"/>
-            <custom name="Volume Sustain Level" id="360" script="id:702"/>
-            <custom name="Bend Amount" id="361" script="id:702"/>
-            <custom name="Mod Wheel Pitch Amount" id="362" script="id:702"/>
-            <custom name="Mod Wheel Filter Amount" id="363" script="id:702"/>
-            <custom name="Pulse Width" id="364" script="id:702"/>
-            <custom name="Q (Resonance)" id="365" script="id:702"/>
-            <custom name="Filter Sustain Level" id="366" script="id:702"/>
-            <custom name="Detune" id="367" script="id:702"/>
-            <custom name="Direct Filter Mod Amount" id="368" script="id:702"/>
-            <custom name="Envelope Amount to Filter" id="369" script="id:702"/>
-            <custom name="Direct Pitch Mod Amount" id="370" script="id:702"/>
-            <custom name="Gate Time" id="371" script="id:702"/>
-            <custom name="Volume Attack" id="372" script="id:702"/>
-            <custom name="Volume Release" id="373" script="id:702"/>
-            <custom name="Volume Decay" id="374" script="id:702"/>
-            <custom name="Filter Attack" id="375" script="id:702"/>
-            <custom name="Filter Release" id="376" script="id:702"/>
-            <custom name="Filter Decay" id="377" script="id:702"/>
-            <custom name="Glide Rate" id="378" script="id:702"/>
-            <custom name="LFO Rate" id="379" script="id:702"/>
-            <custom name="Intro Delay Time" id="380" script="id:702"/>
-            <custom name="Glide Type / Waveform 1" id="381" script="id:702"/>
-            <custom name="Waveform 2 / Octave Shift" id="382" script="id:702"/>
-            <custom name="LFO Waveform / Function" id="383" script="id:702"/>
-            <custom name="Trigger Type / Filter Type" id="384" script="id:702"/>
-            <custom name="OSC 2 Semitone / Tuning Semitone" id="385" script="id:702"/>
-            <custom name="Octave / Arpeggiator Modes" id="386" script="id:702"/>
+        <structure name="Data Types" id="28" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="0-5" id="29" type="integer" length="1">
+                <mask name="High 5 bit mask" value="0xF8">
+                    <fixedvalue name="High 5 bit mask" value="0xF8"/>
+                </mask>
+            </number>
+            <number name="0-15" id="30" type="integer" length="1">
+                <mask name="High 4 bit mask" value="0xF0">
+                    <fixedvalue name="High 4 bit mask" value="0xF0"/>
+                </mask>
+            </number>
+            <number name="Arpeggiator Modes" id="31" disabled="yes" type="integer" length="1">
+                <mask name="down direction" value="0xFE">
+                    <fixedvalue name="down direction" value="0x1"/>
+                </mask>
+                <mask name="up direction" value="0xFD">
+                    <fixedvalue name="up direction" value="0x1"/>
+                </mask>
+                <mask name="deleting mode" value="0xFB">
+                    <fixedvalue name="deleting mode" value="0xFB"/>
+                </mask>
+                <mask name="memory mode" value="0xF7">
+                    <fixedvalue name="memory mode" value="0xF7"/>
+                </mask>
+            </number>
         </structure>
-        <structure name="OSCar Data" id="388" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="Type" id="389" type="integer" length="1"/>
+        <structure name="Harmonic Table" id="33" length="48" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <custom name="Fundamental" id="34" script="id:702"/>
+            <custom name="2nd Harmonic" id="35" script="id:702"/>
+            <custom name="3rd Harmonic" id="36" script="id:702"/>
+            <custom name="4th Harmonic" id="37" script="id:702"/>
+            <custom name="5th Harmonic" id="38" script="id:702"/>
+            <custom name="6th Harmonic" id="39" script="id:702"/>
+            <custom name="7th Harmonic" id="40" script="id:702"/>
+            <custom name="8th Harmonic" id="41" script="id:702"/>
+            <custom name="9th Harmonic" id="42" script="id:702"/>
+            <custom name="10th Harmonic" id="43" script="id:702"/>
+            <custom name="11th Harmonic" id="44" script="id:702"/>
+            <custom name="12th Harmonic" id="45" script="id:702"/>
+            <custom name="13th Harmonic" id="46" script="id:702"/>
+            <custom name="14th Harmonic" id="47" script="id:702"/>
+            <custom name="15th Harmonic" id="48" script="id:702"/>
+            <custom name="16th Harmonic" id="49" script="id:702"/>
+            <custom name="17th Harmonic" id="50" script="id:702"/>
+            <custom name="18th Harmonic" id="51" script="id:702"/>
+            <custom name="19th Harmonic" id="52" script="id:702"/>
+            <custom name="20th Harmonic" id="53" script="id:702"/>
+            <custom name="21st Harmonic" id="54" script="id:702"/>
+            <custom name="22nd Harmonic" id="55" script="id:702"/>
+            <custom name="23rd Harmonic" id="56" script="id:702"/>
+            <custom name="24th Harmonic" id="57" script="id:702"/>
         </structure>
-        <structure name="Waveform Harmonic Data" id="391" extends="id:388">
-            <number name="Type" mustmatch="yes" id="392" type="integer">
+        <structure name="Voice Program" id="59" length="64" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <custom name="Filter Drive" id="60" script="id:702"/>
+            <custom name="Oscillator Balance" id="61" script="id:702"/>
+            <custom name="Noise Balance" id="62" script="id:702"/>
+            <custom name="Filter Frequency" id="63" script="id:702"/>
+            <custom name="Filter Separation" id="64" script="id:702"/>
+            <custom name="Volume Sustain Level" id="65" script="id:702"/>
+            <custom name="Bend Amount" id="66" script="id:702"/>
+            <custom name="Mod Wheel Pitch Amount" id="67" script="id:702"/>
+            <custom name="Mod Wheel Filter Amount" id="68" script="id:702"/>
+            <custom name="Pulse Width" id="69" script="id:702"/>
+            <custom name="Q (Resonance)" id="70" script="id:702"/>
+            <custom name="Filter Sustain Level" id="71" script="id:702"/>
+            <custom name="Detune" id="72" script="id:702"/>
+            <custom name="Direct Filter Mod Amount" id="73" script="id:702"/>
+            <custom name="Envelope Amount to Filter" id="74" script="id:702"/>
+            <custom name="Direct Pitch Mod Amount" id="75" script="id:702"/>
+            <custom name="Gate Time" id="76" script="id:702"/>
+            <custom name="Volume Attack" id="77" script="id:702"/>
+            <custom name="Volume Release" id="78" script="id:702"/>
+            <custom name="Volume Decay" id="79" script="id:702"/>
+            <custom name="Filter Attack" id="80" script="id:702"/>
+            <custom name="Filter Release" id="81" script="id:702"/>
+            <custom name="Filter Decay" id="82" script="id:702"/>
+            <custom name="Glide Rate" id="83" script="id:702"/>
+            <custom name="LFO Rate" id="84" script="id:702"/>
+            <custom name="Intro Delay Time" id="85" script="id:702"/>
+            <custom name="Waveform 1" id="186" script="id:185"/>
+            <custom name="Glide Type" id="184" script="id:183"/>
+            <custom name="Octave Shift" id="189" script="id:188"/>
+            <custom name="Waveform 2" id="190" script="id:187"/>
+            <custom name="Function" id="199" script="id:192"/>
+            <custom name="LFO Waveform" id="200" script="id:193"/>
+            <custom name="Filter Type" id="201" script="id:194"/>
+            <custom name="Trigger Type" id="202" script="id:195"/>
+            <custom name="Tuning Semitone" id="204" script="id:196"/>
+            <custom name="OSC 2 Semitone" id="205" script="id:198"/>
+            <custom name="Arpeggiator Mode" id="171" script="id:170"/>
+            <custom name="Octave Setting" id="206" script="id:191"/>
+        </structure>
+        <structure name="OSCar Data" id="96" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="Type" id="97" type="integer" length="1"/>
+        </structure>
+        <structure name="Waveform Harmonic Data" id="99" extends="id:96">
+            <number name="Type" mustmatch="yes" id="100" type="integer">
                 <fixedvalues>
                     <fixedvalue name="Waveform Harmonic Data" value="1"/>
                 </fixedvalues>
             </number>
-            <structref name="Harmonic Table -8" id="393" structure="id:328"/>
-            <structref name="Harmonic Table -9" id="394" structure="id:328"/>
-            <structref name="Harmonic Table -10" id="395" structure="id:328"/>
-            <structref name="Harmonic Table -11" id="396" structure="id:328"/>
-            <structref name="Harmonic Table -12" id="397" structure="id:328"/>
+            <structref name="Harmonic Table -8" id="101" structure="id:33"/>
+            <structref name="Harmonic Table -9" id="102" structure="id:33"/>
+            <structref name="Harmonic Table -10" id="103" structure="id:33"/>
+            <structref name="Harmonic Table -11" id="104" structure="id:33"/>
+            <structref name="Harmonic Table -12" id="105" structure="id:33"/>
         </structure>
-        <structure name="Voice Program Data" id="399" extends="id:388">
-            <number name="Type" mustmatch="yes" id="400" type="integer">
+        <structure name="Voice Program Data" id="107" extends="id:96">
+            <number name="Type" mustmatch="yes" id="108" type="integer">
                 <fixedvalues>
                     <fixedvalue name="Voice Program Data" value="2"/>
                 </fixedvalues>
             </number>
-            <structref name="Voice Program -1" id="401" structure="id:354"/>
-            <structref name="Voice Program -2" id="402" structure="id:354"/>
-            <structref name="Voice Program -3" id="403" structure="id:354"/>
-            <structref name="Voice Program -4" id="404" structure="id:354"/>
-            <structref name="Voice Program -5" id="405" structure="id:354"/>
-            <structref name="Voice Program -6" id="406" structure="id:354"/>
-            <structref name="Voice Program -7" id="407" structure="id:354"/>
-            <structref name="Voice Program -8" id="408" structure="id:354"/>
-            <structref name="Voice Program -9" id="409" structure="id:354"/>
-            <structref name="Voice Program -10" id="410" structure="id:354"/>
-            <structref name="Voice Program -11" id="411" structure="id:354"/>
-            <structref name="Voice Program -12" id="412" structure="id:354"/>
-            <structref name="Voice Program 1" id="413" structure="id:354"/>
-            <structref name="Voice Program 2" id="414" structure="id:354"/>
-            <structref name="Voice Program 3" id="415" structure="id:354"/>
-            <structref name="Voice Program 4" id="416" structure="id:354"/>
-            <structref name="Voice Program 5" id="417" structure="id:354"/>
-            <structref name="Voice Program 6" id="418" structure="id:354"/>
-            <structref name="Voice Program 7" id="419" structure="id:354"/>
-            <structref name="Voice Program 8" id="420" structure="id:354"/>
-            <structref name="Voice Program 9" id="421" structure="id:354"/>
-            <structref name="Voice Program 10" id="422" structure="id:354"/>
-            <structref name="Voice Program 11" id="423" structure="id:354"/>
-            <structref name="Voice Program 12" id="424" structure="id:354"/>
-            <structref name="Voice Program 13" id="425" structure="id:354"/>
-            <structref name="Voice Program 14" id="426" structure="id:354"/>
-            <structref name="Voice Program 15" id="427" structure="id:354"/>
-            <structref name="Voice Program 16" id="428" structure="id:354"/>
-            <structref name="Voice Program 17" id="429" structure="id:354"/>
-            <structref name="Voice Program 18" id="430" structure="id:354"/>
-            <structref name="Voice Program 19" id="431" structure="id:354"/>
-            <structref name="Voice Program 20" id="432" structure="id:354"/>
-            <structref name="Voice Program 21" id="433" structure="id:354"/>
-            <structref name="Voice Program 22" id="434" structure="id:354"/>
-            <structref name="Voice Program 23" id="435" structure="id:354"/>
-            <structref name="Voice Program 24" id="436" structure="id:354"/>
+            <structref name="Voice Program -1" id="109" structure="id:59"/>
+            <structref name="Voice Program -2" id="110" structure="id:59"/>
+            <structref name="Voice Program -3" id="111" structure="id:59"/>
+            <structref name="Voice Program -4" id="112" structure="id:59"/>
+            <structref name="Voice Program -5" id="113" structure="id:59"/>
+            <structref name="Voice Program -6" id="114" structure="id:59"/>
+            <structref name="Voice Program -7" id="115" structure="id:59"/>
+            <structref name="Voice Program -8" id="116" structure="id:59"/>
+            <structref name="Voice Program -9" id="117" structure="id:59"/>
+            <structref name="Voice Program -10" id="118" structure="id:59"/>
+            <structref name="Voice Program -11" id="119" structure="id:59"/>
+            <structref name="Voice Program -12" id="120" structure="id:59"/>
+            <structref name="Voice Program 1" id="121" structure="id:59"/>
+            <structref name="Voice Program 2" id="122" structure="id:59"/>
+            <structref name="Voice Program 3" id="123" structure="id:59"/>
+            <structref name="Voice Program 4" id="124" structure="id:59"/>
+            <structref name="Voice Program 5" id="125" structure="id:59"/>
+            <structref name="Voice Program 6" id="126" structure="id:59"/>
+            <structref name="Voice Program 7" id="127" structure="id:59"/>
+            <structref name="Voice Program 8" id="128" structure="id:59"/>
+            <structref name="Voice Program 9" id="129" structure="id:59"/>
+            <structref name="Voice Program 10" id="130" structure="id:59"/>
+            <structref name="Voice Program 11" id="131" structure="id:59"/>
+            <structref name="Voice Program 12" id="132" structure="id:59"/>
+            <structref name="Voice Program 13" id="133" structure="id:59"/>
+            <structref name="Voice Program 14" id="134" structure="id:59"/>
+            <structref name="Voice Program 15" id="135" structure="id:59"/>
+            <structref name="Voice Program 16" id="136" structure="id:59"/>
+            <structref name="Voice Program 17" id="137" structure="id:59"/>
+            <structref name="Voice Program 18" id="138" structure="id:59"/>
+            <structref name="Voice Program 19" id="139" structure="id:59"/>
+            <structref name="Voice Program 20" id="140" structure="id:59"/>
+            <structref name="Voice Program 21" id="141" structure="id:59"/>
+            <structref name="Voice Program 22" id="142" structure="id:59"/>
+            <structref name="Voice Program 23" id="143" structure="id:59"/>
+            <structref name="Voice Program 24" id="144" structure="id:59"/>
         </structure>
-        <structure name="Sequence Data" id="438" disabled="yes" extends="id:388">
-            <number name="Type" mustmatch="yes" id="439" type="integer">
+        <structure name="Sequence Data" id="146" disabled="yes" extends="id:96">
+            <number name="Type" mustmatch="yes" id="147" type="integer">
                 <fixedvalues>
                     <fixedvalue name="Sequence Data" value="3"/>
                 </fixedvalues>
             </number>
-            <structure name="Length" id="440">
-                <custom name="Length" id="441" repeatmin="22" repeatmax="22" script="id:702"/>
+            <structure name="Length" id="148">
+                <custom name="Length" id="149" repeatmin="22" repeatmax="22" script="id:702"/>
             </structure>
-            <structure name="Data" id="443" length="0">
-                <custom name="EDF Byte" id="444" repeatmin="22" repeatmax="22"/>
+            <structure name="Data" id="151" length="0">
+                <custom name="EDF Byte" id="152" repeatmin="22" repeatmax="22"/>
             </structure>
         </structure>
-        <structure name="End of System Exclusive" id="447" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <number name="Byte" mustmatch="yes" id="448" type="integer" length="1" display="hex">
+        <structure name="End of System Exclusive" id="155" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="Byte" mustmatch="yes" id="156" type="integer" length="1" display="hex">
                 <fixedvalues>
                     <fixedvalue name="EOX" value="0xF7"/>
                 </fixedvalues>
             </number>
         </structure>
-        <structure name="Chunk" id="450" repeatmax="-1" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <structref name="Start of System Exclusive" id="451" structure="id:314"/>
-            <structref name="Identification Code" id="452" structure="id:325"/>
-            <structref name="Waveform Harmonic Data" id="453" repeatmin="0" structure="id:391"/>
-            <structref name="Voice Program Data" id="454" repeatmin="0" structure="id:399"/>
-            <structref name="Sequence Data" id="455" disabled="yes" repeatmin="0" structure="id:438"/>
-            <structref name="End of System Exclusive" id="456" structure="id:447"/>
+        <structure name="Chunk" id="158" repeatmax="-1" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <structref name="Start of System Exclusive" id="159" structure="id:7"/>
+            <structref name="Identification Code" id="160" structure="id:18"/>
+            <structref name="Waveform Harmonic Data" id="161" repeatmin="0" structure="id:99"/>
+            <structref name="Voice Program Data" id="162" repeatmin="0" structure="id:107"/>
+            <structref name="Sequence Data" id="163" disabled="yes" repeatmin="0" structure="id:146"/>
+            <structref name="End of System Exclusive" id="164" structure="id:155"/>
         </structure>
-        <structure name="MIDI System Exclusive" id="313" encoding="ISO_8859-1:1987" endian="big" signed="no">
-            <structref name="Chunk" id="458" repeatmax="-1" structure="id:450"/>
+        <structure name="MIDI System Exclusive" id="6" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <structref name="Chunk" id="166" repeatmax="-1" structure="id:158"/>
         </structure>
     </grammar>
 </ufwb>
