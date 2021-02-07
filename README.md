@@ -11,7 +11,7 @@ Grammars are stored as XML and support both Python and Lua scripting languages. 
 This grammar is intended to be used with Non Real Time Universal System Exclusive Messages.
 
 
-## Installation
+## Useage
 1. Download and open the <a href="https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true">oscar_sysex.grammar</a> with either Synalize It! or Hexinator.
 2. Open an OSCar MIDI SysEx file.
 3. Apply the MIDI Sysex grammar to the SysEx file.
