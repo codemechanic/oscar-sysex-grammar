@@ -12,13 +12,60 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 
 
 ## Useage
-1. Download and open the <a href="https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true">oscar_sysex.grammar</a> with either Synalize It! or Hexinator.
-2. Open an OSCar MIDI Sysex file.
+1. Download and open the [oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true) with either Synalize It! or Hexinator.
+2. Open an OSCar MIDI Sysex file. If you don't have one available you can download the [factory OSCar Sysex file](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) that is provided as a part of this repository.
 3. Apply the MIDI Sysex grammar to the Sysex file.
 
 
 ![OSCar screenshot](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/images/screenshot.gif?raw=true)
 
 
-## Todo:
-1. Improve definition of the Sequence Data Block
+## OSCar Factory Patch and Wavetable sysex and Patch Names
+The [factory Patch and Wavetable sysex](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) is available in the sysex folder. The OSCar sysex file does not contain the factory Patch names. The [list of patch names](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatchNames.txt?raw=true) can be found in the sysex folder, and are also provided below:
+
+| Number | Name |
+|-|-|
+| -12 | Hollow Bass |
+| -11 | HumanLeague |
+| -10 | DigitalFuzz |
+| -9 | FrogCroak |
+| -8 | OnTheLeash |
+| -7 | DistantLead |
+| -6 | FatWobble |
+| -5 | PercussiveBass |
+| -4 | HorrorSoundtrack |
+| -3 | IdealSequence |
+| -2 | LFOHell |
+| -1 | GlassandoLead |
+| 1 | PWMLead |
+| 2 | ElectricCello |
+| 3 | DiveBommer |
+| 4 | ChurchOrgan |
+| 5 | StaccatoBass |
+| 6 | HollowSequencer |
+| 7 | LoDrone |
+| 8 | SequencePulse |
+| 9 | AnalogueBass |
+| 10 | SquareLead |
+| 11 | TheBigSquidge |
+| 12 | FatAndWobbly |
+| 13 | Noise |
+| 14 | BlippyLead |
+| 15 | SlapBassGuitar |
+| 16 | MixedLead |
+| 17 | DigitalThin |
+| 18 | SequenceMe |
+| 19 | HammondyLead |
+| 20 | EgyptianLead |
+| 21 | Clarinet |
+| 22 | DigitalOrgan |
+| 23 | Brutal |
+| 24 | Snare |
+
+
+## Todo
+* Improve definition of the Sequence Data Block
+
+
+## Thanks
+Special thanks to Jeff Pinchbeck for providing the OSCar factory sysex and patch name files.

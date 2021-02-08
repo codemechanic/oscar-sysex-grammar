@@ -1,0 +1,37 @@
+-12	Hollow Bass
+-11	HumanLeague
+-10	DigitalFuzz
+-9	FrogCroak
+-8	OnTheLeash
+-7	DistantLead
+-6	FatWobble
+-5	PercussiveBass
+-4	HorrorSoundtrack
+-3	IdealSequence
+-2	LFOHell
+-1	GlassandoLead
+1	PWMLead
+2	ElectricCello
+3	DiveBommer
+4	ChurchOrgan
+5	StaccatoBass
+6	HollowSequencer
+7	LoDrone
+8	SequencePulse
+9	AnalogueBass
+10	SquareLead
+11	TheBigSquidge
+12	FatAndWobbly	
+13	Noise
+14	BlippyLead
+15	SlapBassGuitar
+16	MixedLead
+17	DigitalThin
+18	SequenceMe
+19	HammondyLead
+20	EgyptianLead
+21	Clarinet
+22	DigitalOrgan
+23	Brutal
+24	Snare
+
