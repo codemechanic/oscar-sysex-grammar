@@ -44,7 +44,7 @@ Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating 
 
 
 ## OSCar schematics
-Taking nothing away from the hand-drawn schematics Chris generously provided, Bob has released a more legible and [modern and set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
+Taking nothing away from the hand-drawn schematics Chris generously provided, Bob has released a more legible and [modern set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
 
 
 ## OSCar Tauntek MIDI Sysex grammar
