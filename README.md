@@ -22,12 +22,12 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 
 ## New Tauntek firmware and hardware
 
-Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating system and [MIDI daughter board](http://tauntek.com/OSCar.htm) that add new features as well as improving the reliability of the OSCar synthesizer. Settings for the new features have been stored in some of the unused bits of the Voice Program (patch) data. A benefit of this approach is that Voice Programs stored with new settings are backwards compatible with earlier OSCar firmware revisions. If you're running an older version of the OSCar operating system and do not have the daughterboard installed, these new features will simply be unavailable and load normally.
+Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating system and [MIDI daughter board for the OSCar synthesizer](http://tauntek.com/OSCar.htm) that add new features and improve its reliability. Settings for the new features have been stored in the unused bits of the Voice Program (patch) data. The benefit to this approach is that Voice Programs stored with new settings take up the same amount of space and are backwards compatible with earlier OSCar firmware revisions. If you're running an older version of the OSCar firmware and do not have the new daughterboard installed, settings for the new features will simply be ignored.
 
-**Tauntek improvements**
+**Improvements:**
 1. Reliable power cycling and settings retention.
 	* MIDI channel and settings are preserved when the power is turned off.
-	* Powering on and off no longer randomly corrupts the RAM.
+	* Powering cycling no longer corrupts the RAM.
 	* RAM is checked and initialized if contents have been lost, and the factory patch bank is then loaded.
 2. MIDI CC reception added for all front panel controls except volume.
 3. LFO modulations to Oscillator 1 can be enabled/disabled. This new setting is saved in the patch data.
@@ -37,18 +37,19 @@ Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating 
 7. 3 sets of 36 patches can be loaded from the EPROM (36 factory patches plus two new sets).
 8. Current set of patches can be saved in one of two new RAM "save areas". These two slots can be used as a fourth or fifth set of patches to load.
 9. New random arpeggiator mode. All held keys are played in a random order.
-10. Current patch can be easily saved to the same location it was loaded from.
-11. Last loaded patch is selected at power up, rather than defaulting to patch 1.
+10. The current patch can be easily saved to the same location it was loaded from.
+11. The last loaded patch is selected at power up rather than defaulting to patch 1.
 12. Patch 6 is no longer automatically selected when editing a sequence.
 13. CC dump of patch paramters after patch selection can be enabled/disabled. CC dumps are disabled during sequencer playback.
 
+
 ## OSCar schematics
-Taking nothing away the hand drawn schematics Chris originally provided, Bob has released a more legible and [modern and set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
+Taking nothing away the hand drawn schematics Chris generously provided, Bob has released a more legible and [modern and set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
 
 
 ## OSCar Tauntek MIDI Sysex grammar
 
-Alongside the original OSCar Sysex grammar, a [Tauntek specific version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) is available that supports the new settings provided by Tauntek firmware and hardware. This grammar is backwards compatible with original Sysex files from prior firmware revisions. Note that the new features are simply not applicable to older Sysex files and will show up in the default (zero) state.
+Alongside the original OSCar Sysex grammar, a [Tauntek specific version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) is available that supports the new settings provided by Tauntek firmware and hardware. This grammar is backwards compatible with original Sysex files from earlier firmware revisions. Note that the new features are simply not applicable to older Sysex files and results will be displayed in their default (zero) state.
 
 
 ## OSCar Factory Patch and Wavetable sysex and Patch Names
