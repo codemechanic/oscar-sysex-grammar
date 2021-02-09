@@ -12,7 +12,7 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 
 
 ## Useage
-1. Download and open either the [oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true) or the [Tauntek version of the oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) with Synalize It! or Hexinator.
+1. Download either the original [oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true) or the Tauntek version [oscar_tauntek_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true), and open the grammar with Synalize It! or Hexinator.
 2. Open an OSCar MIDI Sysex file. If you don't have one available you can download the [factory OSCar Sysex file](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) that is provided as a part of this repository.
 3. Apply the MIDI Sysex grammar to the Sysex file.
 
