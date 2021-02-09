@@ -22,7 +22,7 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 
 ## New Tauntek firmware and hardware
 
-Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating system and [MIDI daughter board for the OSCar synthesizer](http://tauntek.com/OSCar.htm) that add new features and improve its reliability. Settings for the new features have been stored in the unused bits of the Voice Program (patch) data. The benefit to this approach is that Voice Programs stored with new settings take up the same amount of space and are backwards compatible with earlier OSCar firmware revisions. If you're running an older version of the OSCar firmware and do not have the new daughterboard installed, settings for the new features will simply be ignored.
+Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating system and [MIDI daughter board for the OSCar synthesizer](http://tauntek.com/OSCar.htm) that add new features and improves reliability. Settings for the new features have been stored in the unused bits of the Voice Program (patch) data. The benefit to this approach is that Voice Programs stored with new settings take up the same amount of space and are backwards compatible with earlier OSCar firmware revisions. If you're running an older version of the OSCar firmware and do not have the new daughterboard installed, settings for the new features will simply be ignored.
 
 **Improvements:**
 1. Reliable power cycling and settings retention.
@@ -44,7 +44,7 @@ Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating 
 
 
 ## OSCar schematics
-Taking nothing away the hand drawn schematics Chris generously provided, Bob has released a more legible and [modern and set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
+Taking nothing away from the hand-drawn schematics Chris generously provided, Bob has released a more legible and [modern and set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
 
 
 ## OSCar Tauntek MIDI Sysex grammar
