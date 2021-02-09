@@ -31,13 +31,13 @@ Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating 
 	* RAM is checked and initialized if contents have been lost, and the factory patch bank is then loaded.
 2. MIDI CC reception added for all front panel controls except volume.
 3. LFO modulations to Oscillator 1 can be enabled/disabled. This new setting is saved in the patch data.
-4. LFO waveform sync can be enabled/disabled. This means the LFO waveform is reset each time the arpeggiator or sequencer advances to the next note, and runs at the rate set by the LFO rate knob.
+4. LFO waveform sync can be enabled/disabled. This means the LFO waveform can be reset each time the arpeggiator or sequencer advances to the next note, and runs at the rate set by the LFO rate knob.
 5. 3 new Pulse Width Modulation rates (one faster and two slower). This new setting is saved in the patch data.
 6. MIDI note velocity can be also used to control filter envelope amount.
 7. 3 sets of 36 patches can be loaded from the EPROM (36 factory patches plus two new sets).
 8. Current set of patches can be saved in one of two new RAM "save areas". These two slots can be used as a fourth or fifth set of patches to load.
 9. New random arpeggiator mode. All held keys are played in a random order.
-10. The current patch can be easily saved to the same location it was loaded from.
+10. The current patch can be saved to the same location it was loaded from.
 11. The last loaded patch is selected at power up rather than defaulting to patch 1.
 12. Patch 6 is no longer automatically selected when editing a sequence.
 13. CC dump of patch paramters after patch selection can be enabled/disabled. CC dumps are disabled during sequencer playback.
