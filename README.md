@@ -20,9 +20,9 @@ The grammar files provided here are used for interpretting Non Real Time Univers
 ![OSCar screenshot](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/images/screenshot.gif?raw=true)
 
 
-## New Tauntek firmware and hardware
+## Tauntek hardware and firmware
 
-Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating system and [MIDI daughter board for the OSCar synthesizer](http://tauntek.com/OSCar.htm) that add new features and improves reliability. Settings for the new features have been stored in the unused bits of the Voice Program (patch) data. The benefit to this approach is that Voice Programs stored with new settings take up the same amount of space and are backwards compatible with earlier OSCar firmware revisions. If you're running an older version of the OSCar firmware and do not have the new daughterboard installed settings for the new features will simply be ignored.
+Bob Grieb of [Tauntek](http://tauntek.com) has developed a new [MIDI daughter board for the OSCar synthesizer](http://tauntek.com/OSCar.htm) and an updated operating system that adds new features and improves the overall stability of the OSCar synthesizer. Saved settings for the new features are stored in unused bits of the Voice Program data, which means that Voice Programs stored with new settings take up the same amount of space and are backwards compatible with earlier OSCar firmware revisions. If you are running an older version of the OSCar firmware and do not have the new daughterboard or firmware installed, stored values for the new features will simply be ignored.
 
 **Improvements:**
 1. Reliable power cycling and settings retention.
@@ -49,7 +49,7 @@ Taking nothing away from the hand-drawn schematics Chris generously provided, Bo
 
 ## OSCar Tauntek MIDI Sysex grammar
 
-The [Tauntek version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) supports the features provided by Tauntek firmware and hardware. This grammar is backwards compatible with Sysex files from earlier firmware revisions. Note that new patch settings in Tauntek Sysex files are simply not applicable to Sysex files saved out by older firmware revisions, and results will be stored in their default (zero) state.
+The [Tauntek version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) supports the new features provided by Tauntek hardware and firmware. The Tauntek version of the grammar is backwards compatible with Sysex files created from a non-Tauntek OSCar synthesizer. Note that new patch settings in Tauntek Sysex files are simply not applicable to Sysex files saved out by older firmware revisions, and that results for those new values will be found in their default (zero) state.
 
 
 ## OSCar Factory Patch and Wavetable sysex plus Patch Names
@@ -100,6 +100,6 @@ The [factory Patch and Wavetable sysex](https://github.com/codemechanic/oscar-sy
 
 
 ## Special Thanks
-* Bob Grieb for updating the OSCar operating system firmware and providing the new MIDI daughterboard
+* Bob Grieb for developing the new MIDI daughterboard and updating the OSCar firmware
 * Jeff Pinchbeck for supplying the OSCar factory sysex and patch name files
 * Members of the OSCar Synth Owners mailing list for their feedback on feature enhancements and testing
