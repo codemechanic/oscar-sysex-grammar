@@ -22,7 +22,7 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 
 ## New Tauntek firmware and hardware
 
-Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating system and [MIDI daughter board](http://tauntek.com/OSCar.htm) that add new features as well as improving the reliability of the OSCar synthesizer. Settings for the new features have been stored in some of the unused bits of the Voice Program Data. A benefit of this approach is that Voice Programs stored with new settings are backwards compatible with earlier OSCar firmware revisions. If you're running an older version of the OSCar operating system and do not have the daughterboard installed, these new features will simply be unavailable and load normally.
+Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating system and [MIDI daughter board](http://tauntek.com/OSCar.htm) that add new features as well as improving the reliability of the OSCar synthesizer. Settings for the new features have been stored in some of the unused bits of the Voice Program (patch) data. A benefit of this approach is that Voice Programs stored with new settings are backwards compatible with earlier OSCar firmware revisions. If you're running an older version of the OSCar operating system and do not have the daughterboard installed, these new features will simply be unavailable and load normally.
 
 **Tauntek improvements**
 1. Reliable power cycling and settings retention.
@@ -42,13 +42,13 @@ Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating 
 12. Patch 6 is no longer automatically selected when editing a sequence.
 13. CC dump of patch paramters after patch selection can be enabled/disabled. CC dumps are disabled during sequencer playback.
 
-## Updated OSCar schematics
-Taking nothing away the original hand drawn schematics Chris provided, Bob has released a more [modern set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
+## OSCar schematics
+Taking nothing away the hand drawn schematics Chris originally provided, Bob has released a more legible and [modern and set of schematics for the OSCar](http://tauntek.com/oscarschems.zip).
 
 
 ## OSCar Tauntek MIDI Sysex grammar
 
-Alongside the original OSCar Sysex grammar, I've provided a [Tauntek specific version of the OSCar Sysex grammar] that supports the new settings provided by Tauntek firmware and hardware. This grammar is backwards compatible with original Sysex files from prior firmware revisions. Note that the new features are simply not applicable to older Sysex files and will show up in the default (zero) state.
+Alongside the original OSCar Sysex grammar, a [Tauntek specific version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) is available that supports the new settings provided by Tauntek firmware and hardware. This grammar is backwards compatible with original Sysex files from prior firmware revisions. Note that the new features are simply not applicable to older Sysex files and will show up in the default (zero) state.
 
 
 ## OSCar Factory Patch and Wavetable sysex and Patch Names
@@ -101,4 +101,4 @@ The [factory Patch and Wavetable sysex](https://github.com/codemechanic/oscar-sy
 ## Special Thanks
 * Bob Grieb for his work on the new operatinge system firmware and MIDI daughterboard
 * Jeff Pinchbeck for supplying the OSCar factory sysex and patch name files
-* Members of the OSCar Synth Owners mailing list for feedback feature enhancements and testing
+* Members of the OSCar Synth Owners mailing list for their feedback on feature enhancements and testing
