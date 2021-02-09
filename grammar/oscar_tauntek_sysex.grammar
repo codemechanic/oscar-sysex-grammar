@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ufwb version="1.17">
-    <grammar name="OSCar MIDI Sysex" start="id:6" author="Ben Allen" email="codemechanic@gmail.com" fileextension=".syx">
-        <description>Grammar for the OSCar Synthesizer MIDI System Exclusive format</description>
+    <grammar name="OSCar Tauntek MIDI Sysex" start="id:6" author="Ben Allen" email="codemechanic@gmail.com" fileextension=".syx">
+        <description>Grammar for the OSCar Tauntek MIDI System Exclusive format</description>
         <scripts>
             <script name="OSCar Exclusive Data Format" type="DataType" id="702">
                 <source language="Python">
@@ -385,14 +385,16 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
                 </source>
             </script>
-            <script name="OSCar Function Byte" type="DataType" id="192">
+            <script name="OSCar Tauntek Function Byte" type="DataType" id="192">
                 <source language="Python">
 # OSCar Function Byte
 #
+# No LFO to OSC 1 Labels 0-1
 # Function Labels 0-5
 
 from enum import Enum
-valueLabels = Enum('Function', 'Normal, Arpeggiator, Duophonic, Normal-Hold, Arpeggiator-Hold, Duophonic-Hold', start=0)
+functionLabels = Enum('Function', 'Normal, Arpeggiator, Duophonic, Normal-Hold, Arpeggiator-Hold, Duophonic-Hold', start=0)
+tauntekLabels = Enum('noLFOtoOSC1', 'disabled, enabled', start=0)
 
 def parseByteRange(element, byteView, bitPos, bitLength, results):
 	# this method parses data starting at bitPos, bitLength bits are remaining
@@ -404,16 +406,30 @@ def parseByteRange(element, byteView, bitPos, bitLength, results):
 	if (initialBitLow == 0):
 
 			# read bits
-			result = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
+			tauntek = byteView.readUnsignedIntBits(bitPos+4, 1, ENDIAN_BIG)
+			function = byteView.readUnsignedIntBits(bitPos+5, 3, ENDIAN_BIG)
 
 			# return value to results
-			if (result &lt; len(valueLabels)):
-				value = Value()
-				value.setString(str(result) + &quot;: &quot; + str(valueLabels(result).name))
-				results.addElement(element, 1, 0, value)
+			if (function &lt; len(functionLabels)) and (tauntek &lt; len(tauntekLabels)):
+
+				# set values
+				padding = Value()
+				tauntekResult = Value()
+				functionResult = Value()
+
+				# set value strings
+				padding.setString(&quot;padding: 0000&quot;)
+				tauntekResult.setString(str(tauntek) + &quot;: No LFO to OSC 1 &quot; + str(tauntekLabels(tauntek).name))
+				functionResult.setString(str(function) + &quot;: &quot; + str(functionLabels(function).name))
+
+				# add values to results
+				results.addElementBits(element, 4, 0, padding)
+				results.addElementBits(element, 1, 0, tauntekResult)
+				results.addElementBits(element, 3, 0, functionResult)
+
 				processedBytes = 1
 			else:
-				print(&quot;Value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;)&quot;)
+				print(&quot;Value out of range&quot;)
 
 	return processedBytes
 
@@ -430,7 +446,7 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
                 </source>
             </script>
-            <script name="OSCar LFO Waveform" type="DataType" id="193">
+            <script name="OSCar Tauntek LFO Waveform" type="DataType" id="193">
                 <source language="Python">
 # OSCar LFO Waveform Byte
 #
@@ -475,7 +491,7 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
                 </source>
             </script>
-            <script name="OSCar Filter Type" type="DataType" id="194">
+            <script name="OSCar Tauntek Filter Type" type="DataType" id="194">
                 <source language="Python">
 # OSCar Filter Type Byte
 #
@@ -520,7 +536,7 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 		print(&quot;Input value out of range (0-&quot; + str(len(valueLabels)-1) + &quot;). Value not updated.&quot;)
                 </source>
             </script>
-            <script name="OSCar Trigger Type" type="DataType" id="195">
+            <script name="OSCar Tauntek Trigger Type" type="DataType" id="195">
                 <source language="Python">
 # OSCar Trigger Type Byte
 #
