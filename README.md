@@ -43,7 +43,7 @@ Bob Grieb from [Tauntek](http://tauntek.com) has developed an updated operating 
 13. CC dump of patch paramters after patch selection can be enabled/disabled. CC dumps are disabled during sequencer playback.
 
 ## Updated OSCar schematics
-Not to take away from Chris's original hand drawn schematics... Bob has released more modern set of [OSCar schematics](http://tauntek.com/oscarschems.zip).
+Taking nothing away the original hand drawn schematics Chris provided, Bob has released a more [modern set for the OSCar](http://tauntek.com/oscarschems.zip).
 
 
 ## OSCar Tauntek MIDI Sysex grammar
