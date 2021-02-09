@@ -52,7 +52,7 @@ Taking nothing away the hand drawn schematics Chris generously provided, Bob has
 Alongside the original OSCar Sysex grammar, a [Tauntek specific version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) is available that supports the new settings provided by Tauntek firmware and hardware. This grammar is backwards compatible with original Sysex files from earlier firmware revisions. Note that the new features are simply not applicable to older Sysex files and results will be displayed in their default (zero) state.
 
 
-## OSCar Factory Patch and Wavetable sysex and Patch Names
+## OSCar Factory Patch and Wavetable sysex plus Patch Names
 The [factory Patch and Wavetable sysex](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) is available in the sysex folder. The OSCar sysex file does not contain the factory Patch names, however the [list of patch names](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatchNames.txt?raw=true) can be found in the sysex folder, as well as being provided below:
 
 | Number | Name |
