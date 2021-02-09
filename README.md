@@ -12,7 +12,7 @@ This grammar is intended to be used with Non Real Time Universal System Exclusiv
 
 
 ## Useage
-1. Download and open the [oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true) with either Synalize It! or Hexinator.
+1. Download and open either the [oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true) or the [Tauntek version of the oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) with Synalize It! or Hexinator.
 2. Open an OSCar MIDI Sysex file. If you don't have one available you can download the [factory OSCar Sysex file](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) that is provided as a part of this repository.
 3. Apply the MIDI Sysex grammar to the Sysex file.
 
@@ -49,7 +49,7 @@ Taking nothing away the hand drawn schematics Chris generously provided, Bob has
 
 ## OSCar Tauntek MIDI Sysex grammar
 
-Alongside the original OSCar Sysex grammar, a [Tauntek specific version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) is available that supports the new settings provided by Tauntek firmware and hardware. This grammar is backwards compatible with original Sysex files from earlier firmware revisions. Note that the new features are simply not applicable to older Sysex files and results will be displayed in their default (zero) state.
+The [Tauntek version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) supports the features provided by Tauntek firmware and hardware. This grammar is backwards compatible with Sysex files from earlier firmware revisions. Note that new patch settings in Tauntek Sysex files are simply not applicable to Sysex files saved out by older firmware revisions, and results will be stored in their default (zero) state.
 
 
 ## OSCar Factory Patch and Wavetable sysex plus Patch Names
