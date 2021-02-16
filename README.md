@@ -49,7 +49,7 @@ Taking nothing away from the hand-drawn schematics Chris generously provided, Bo
 
 ## OSCar Tauntek MIDI Sysex grammar
 
-The [Tauntek version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) supports the new features provided by Tauntek hardware and firmware. The Tauntek version of the grammar is backwards compatible with Sysex files created from a non-Tauntek OSCar synthesizer. Note that new patch settings in Tauntek Sysex files are simply not applicable to Sysex files saved out by older firmware revisions, and that results for those new values will be found in their default (zero) state.
+The [Tauntek version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) supports the new features provided by Tauntek hardware and firmware. This grammar file is compatible with Sysex files created by non-Tauntek OSCar synthesizers. Note that the new patch bits are not addressed by older firmware revisions and that results for those values will be found in their default (zero) state.
 
 
 ## OSCar Factory Patch and Wavetable sysex plus Patch Names
