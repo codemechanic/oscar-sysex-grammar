@@ -11,7 +11,7 @@ Grammar files provide an interface for editing and translating human readable va
 The grammar files provided here are used for interpretting Non Real Time Universal System Exclusive Messages.
 
 
-## Useage
+## Usage
 1. Download either the original [oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true) or the Tauntek version [oscar_tauntek_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true), and open the grammar with Synalize It! or Hexinator.
 2. Open an OSCar MIDI Sysex file. If you don't have one available you can download the [factory OSCar Sysex file](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) that is provided as a part of this repository.
 3. Apply the MIDI Sysex grammar to the Sysex file.
@@ -100,6 +100,6 @@ The [factory Patch and Wavetable sysex](https://github.com/codemechanic/oscar-sy
 
 
 ## Special Thanks
-* Bob Grieb for developing the new MIDI daughterboard and updating the OSCar firmware
+* Bob Grieb of [Tauntek](http://tauntek.com) for developing the new MIDI daughterboard and updating the OSCar firmware
 * Jeff Pinchbeck for supplying the OSCar factory sysex and patch name files
 * Members of the OSCar Synth Owners mailing list for their feedback on feature enhancements and testing
