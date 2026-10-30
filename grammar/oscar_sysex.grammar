@@ -48,7 +48,7 @@ def fillByteRange(value, byteArray, bitPos, bitLength):
 	&quot;&quot;&quot;fillByteRange method&quot;&quot;&quot;
 
 	if (bitLength &lt; 16):
-		print &quot;Not enough space for OSCar Exclusive Data Format, 16 bits needed&quot;
+		print(&quot;Not enough space for OSCar Exclusive Data Format, 16 bits needed&quot;)
 
 	# get number edited by user
 	number = value.getUnsigned()
