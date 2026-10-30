@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This script is intended to be run from within the OSCar MIDI Sysex Grammar file
 
