@@ -1,6 +1,6 @@
 # OSCar MIDI System Exclusive (Sysex) Grammar
 
-![OSCar screenshot](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/images/oscar.jpg?raw=true)
+![OSCar screenshot](images/oscar.jpg)
 
 This grammar file maps the structure of the MIDI System Exclusive File Format for the [OSCar synthesizer](https://en.wikipedia.org/wiki/OSC_OSCar), and is based on the generic [MIDI System Exclusive (Sysex) Grammar](https://github.com/codemechanic/midi-sysex-grammar).
 
@@ -12,12 +12,12 @@ The grammar files provided here are used for interpretting Non Real Time Univers
 
 
 ## Usage
-1. Download either the original [oscar_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_sysex.grammar?raw=true) or the Tauntek version [oscar_tauntek_sysex.grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true), and open the grammar with Synalize It! or Hexinator.
-2. Open an OSCar MIDI Sysex file. If you don't have one available you can download the [factory OSCar Sysex file](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) that is provided as a part of this repository.
+1. Download either the original [oscar_sysex.grammar](grammar/oscar_sysex.grammar) or the Tauntek version [oscar_tauntek_sysex.grammar](grammar/oscar_tauntek_sysex.grammar), and open the grammar with Synalize It! or Hexinator.
+2. Open an OSCar MIDI Sysex file. If you don't have one available you can download the [factory OSCar Sysex file](sysex/factory/FactoryPatch_Wavetable.syx) that is provided as a part of this repository.
 3. Apply the MIDI Sysex grammar to the Sysex file.
 
 
-![OSCar screenshot](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/images/screenshot.gif?raw=true)
+![OSCar screenshot](images/screenshot.gif)
 
 
 ## Tauntek hardware and firmware
@@ -49,11 +49,11 @@ Improving on the hand drawn schematics Chris authored, Bob has released [modern 
 
 ## OSCar Tauntek MIDI Sysex grammar
 
-The [Tauntek version of the OSCar Sysex grammar](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/grammar/oscar_tauntek_sysex.grammar?raw=true) supports the new features provided by Tauntek hardware and firmware. This grammar file is compatible with Sysex files created by non-Tauntek OSCar synthesizers. Note that the new patch bits are not addressed by older firmware revisions and that results for those values will be found in their default (zero) state.
+The [Tauntek version of the OSCar Sysex grammar](grammar/oscar_tauntek_sysex.grammar) supports the new features provided by Tauntek hardware and firmware. This grammar file is compatible with Sysex files created by non-Tauntek OSCar synthesizers. Note that the new patch bits are not addressed by older firmware revisions and that results for those values will be found in their default (zero) state.
 
 
 ## OSCar Factory Patch and Wavetable sysex plus Patch Names
-The [factory Patch and Wavetable sysex](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatch_Wavetable.syx?raw=true) is available in the sysex folder. The OSCar sysex file does not contain the factory Patch names, however the [list of patch names](https://github.com/codemechanic/oscar-sysex-grammar/blob/main/sysex/factory/FactoryPatchNames.txt?raw=true) can be found in the sysex folder, as well as being provided below:
+The [factory Patch and Wavetable sysex](sysex/factory/FactoryPatch_Wavetable.syx) is available in the sysex folder. The OSCar sysex file does not contain the factory Patch names, however the [list of patch names](sysex/factory/FactoryPatchNames.txt) can be found in the sysex folder, as well as being provided below:
 
 | Number | Name |
 |-|-|
